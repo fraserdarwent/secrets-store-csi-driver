@@ -1,0 +1,26 @@
+name: CSI Driver Helm Chart
+
+trigger:
+  - master
+
+resources:
+  repositories:
+    - repository: libraries
+      type: git
+      name: azure-devops-libraries
+      ref: refs/heads/master
+    - repository: config
+      type: git
+      name: cne-common-config
+      ref: refs/heads/master
+
+variables:
+  - template: /cts/config.yaml@config
+
+stages:
+  - template: /azure-pipeline-templates/stages/helm-internal-charts-pipeline.yaml@libraries
+    parameters:
+      charts:
+        - name: csi-driver
+          displayName: csi_driver_0_0_9
+          version: 0.0.9
